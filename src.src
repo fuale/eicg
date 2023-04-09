@@ -1,0 +1,35 @@
+// function definition
+Def[MyPrint, Args[x], Print[x]]
+
+Def[CacheResult, Args[f, HashMap[kv]],
+	Let[x, 
+		Cond[
+			Has[x, kv],
+			Get[x, kv],
+			Assoc[x, f[x], kv]
+		]
+	]
+]
+
+Def[CreateCachedPrint, Args[f = CacheResult[MyPrint]], 
+	Let[x, f[x]]
+]
+
+Def[CachedPrint = CreateCachedPrint[]]
+
+// Call
+CachedPrint[ Inc[ 2 ] ]
+CachedPrint[
+	3
+]
+
+// List, Map
+Map[
+	Let[x, Print[x]],
+	List[1, 2, 3, 4]
+]
+
+// Closure
+Def[ClosureExample = Call[
+	Let[x = 10, Print[x]]
+]]
